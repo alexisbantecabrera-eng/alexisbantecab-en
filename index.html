@@ -6,7 +6,8 @@
 <title>Pixel Love 💗</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
-<style>
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
+<script>window.Peer || document.write('<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"><\/script>')</script>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0;min-height:100vh;background:#2d1b4e;color:#fff1f6;
@@ -152,6 +153,7 @@ function actualizarMarcador(){
 function crearSala(){
   if (typeof Peer === 'undefined'){ msg('No cargó la conexión. Revisa tu internet.'); return; }
   yo = nombre(); esHost = true;
+  msg('Creando sala...');
   const code = codigo();
   peer = new Peer(PREFIJO + code);
   peer.on('open', () => { $('codigo').textContent = code; show('espera'); });
@@ -161,7 +163,7 @@ function crearSala(){
   });
   peer.on('error', e => {
     if (e.type === 'unavailable-id'){ peer.destroy(); crearSala(); }
-    else msg('No se pudo crear la sala. Revisa tu internet.');
+    else msg('No se pudo crear la sala (' + e.type + ')');
   });
 }
 
